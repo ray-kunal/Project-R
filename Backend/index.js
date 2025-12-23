@@ -32,6 +32,14 @@ app.listen(PORT, async () => {
     process.exit(1);
   }
 });
+app.get("/", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT * FROM users");
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 app.post("/users", async (req, res) => {
   try {
     const { name, email } = req.body;
